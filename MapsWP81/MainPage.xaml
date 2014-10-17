@@ -15,8 +15,9 @@
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,12">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,-6">
                 <Button Margin="4,0" Content="Malmö"    x:Name="button1"  Click="buttonMalmoe_Click" Background="#7FBA3434" MinWidth="30"/>
-                <Button Margin="4,0" Content="You"    x:Name="buttonYou" Click="buttonYou_Click" Background="#7FBA3434" MinWidth="30" />
                 <Button Margin="4,0" Content="London"   x:Name="buttonNY" Click="buttonLondon_Click" Background="#7FBA3434" MinWidth="30"  />
+                <Button Margin="4,0" Content="You"    x:Name="buttonYou" Click="buttonYou_Click" Background="#7FBA3434" MinWidth="30" />
+                <Button Margin="4,0" Content="Jayway"    x:Name="buttonJayway" Click="buttonJayway_Click" Background="#7FBA3434" MinWidth="30" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Margin="0,-6">
                 <Button Margin="4,0" Content="R" x:Name="buttonRoad" Click="buttonRoad_Click" Background="#7FBA3434" MinWidth="30" />

@@ -64,8 +64,8 @@ namespace MapsWP81
         private async void buttonYou_Click(object sender, RoutedEventArgs e)
         {
             var gl = new Geolocator() { DesiredAccuracy = PositionAccuracy.High };
-
             var location = await gl.GetGeopositionAsync(TimeSpan.FromMinutes(5), TimeSpan.FromSeconds(5));
+
             var pin = new MapIcon()
             {
                 Location = location.Coordinate.Point,
@@ -74,15 +74,19 @@ namespace MapsWP81
                 NormalizedAnchorPoint = new Point() { X = 0.32, Y = 0.78 },
             };
             map1.MapElements.Add(pin);
-            map1.TrySetViewAsync(location.Coordinate.Point, 15, 0, 0, MapAnimationKind.Bow);
-
-            #region Alternative pushpin technique
-                //var pin2 = CreatePin();
-                //map1.Children.Add(pin2);
-                //MapControl.SetLocation(pin2, location.Coordinate.Point);
-                //MapControl.SetNormalizedAnchorPoint(pin2, new Point(0.0, 1.0));
-            #endregion
+            map1.TrySetViewAsync(location.Coordinate.Point, 16, 0, 0, MapAnimationKind.Bow);
         }
+
+        private void buttonJayway_Click(object sender, RoutedEventArgs e)
+        {
+            var jayway = new Geopoint(new BasicGeoposition() { Latitude = 55.6127809826285, Longitude = 13.0031764693558 });
+            var youPin = CreatePin();
+            map1.Children.Add(youPin);
+            MapControl.SetLocation(youPin, jayway);
+            MapControl.SetNormalizedAnchorPoint(youPin, new Point(0.0, 1.0));
+            map1.TrySetViewAsync(jayway, 15, 0, 0, MapAnimationKind.Bow);
+        }
+
 
         private void buttonLondon_Click(object sender, RoutedEventArgs e)
         {
@@ -130,44 +134,6 @@ namespace MapsWP81
         private void Traffic_Unchecked(object sender, RoutedEventArgs e)
         {
             map1.TrafficFlowVisible = false;
-        }
-
-
-
-
-        private DependencyObject CreatePin()
-        {
-            //Creating a Grid element.
-
-            var myGrid = new Grid();
-            myGrid.RowDefinitions.Add(new RowDefinition());
-            myGrid.RowDefinitions.Add(new RowDefinition());
-            myGrid.Background = new SolidColorBrush(Colors.Transparent);
-
-            //Creating a Rectangle
-            var myRectangle = new Rectangle();
-            myRectangle.Fill = new SolidColorBrush(Colors.Black);
-            myRectangle.Height = 20;
-            myRectangle.Width = 20;
-            myRectangle.SetValue(Grid.RowProperty, 0);
-            myRectangle.SetValue(Grid.ColumnProperty, 0);
-
-            //Adding the Rectangle to the Grid
-            myGrid.Children.Add(myRectangle);
-
-            //Creating a Polygon
-            var myPolygon = new Polygon();
-            myPolygon.Points.Add(new Point(2, 0));
-            myPolygon.Points.Add(new Point(22, 0));
-            myPolygon.Points.Add(new Point(2, 40));
-            myPolygon.Stroke = new SolidColorBrush(Colors.Black);
-            myPolygon.Fill = new SolidColorBrush(Colors.Black);
-            myPolygon.SetValue(Grid.RowProperty, 1);
-            myPolygon.SetValue(Grid.ColumnProperty, 0);
-
-            //Adding the Polygon to the Grid
-            myGrid.Children.Add(myPolygon);
-            return myGrid;
         }
 
         private void TileSource_Checked(object sender, RoutedEventArgs e)
@@ -250,6 +216,43 @@ namespace MapsWP81
             await writer.FlushAsync();
             return RandomAccessStreamReference.CreateFromStream(randomAccessStream);
         }
+
+
+        private DependencyObject CreatePin()
+        {
+            //Creating a Grid element.
+
+            var myGrid = new Grid();
+            myGrid.RowDefinitions.Add(new RowDefinition());
+            myGrid.RowDefinitions.Add(new RowDefinition());
+            myGrid.Background = new SolidColorBrush(Colors.Transparent);
+
+            //Creating a Rectangle
+            var myRectangle = new Rectangle();
+            myRectangle.Fill = new SolidColorBrush(Colors.Black);
+            myRectangle.Height = 20;
+            myRectangle.Width = 20;
+            myRectangle.SetValue(Grid.RowProperty, 0);
+            myRectangle.SetValue(Grid.ColumnProperty, 0);
+
+            //Adding the Rectangle to the Grid
+            myGrid.Children.Add(myRectangle);
+
+            //Creating a Polygon
+            var myPolygon = new Polygon();
+            myPolygon.Points.Add(new Point(2, 0));
+            myPolygon.Points.Add(new Point(22, 0));
+            myPolygon.Points.Add(new Point(2, 40));
+            myPolygon.Stroke = new SolidColorBrush(Colors.Black);
+            myPolygon.Fill = new SolidColorBrush(Colors.Black);
+            myPolygon.SetValue(Grid.RowProperty, 1);
+            myPolygon.SetValue(Grid.ColumnProperty, 0);
+
+            //Adding the Polygon to the Grid
+            myGrid.Children.Add(myPolygon);
+            return myGrid;
+        }
+
     
     }
 }
