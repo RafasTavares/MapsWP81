@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
+using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -63,13 +64,24 @@ namespace MapsWP81
         private async void buttonYou_Click(object sender, RoutedEventArgs e)
         {
             var gl = new Geolocator() { DesiredAccuracy = PositionAccuracy.High };
-            var pin = CreatePin();
 
             var location = await gl.GetGeopositionAsync(TimeSpan.FromMinutes(5), TimeSpan.FromSeconds(5));
+            var pin = new MapIcon()
+            {
+                Location = location.Coordinate.Point,
+                Title = "You are here!",
+                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/pin.png")),
+                NormalizedAnchorPoint = new Point() { X = 0.32, Y = 0.78 },
+            };
+            map1.MapElements.Add(pin);
             map1.TrySetViewAsync(location.Coordinate.Point, 15, 0, 0, MapAnimationKind.Bow);
-            map1.Children.Add(pin);
-            MapControl.SetLocation(pin, location.Coordinate.Point);
-            MapControl.SetNormalizedAnchorPoint(pin, new Point(0.5, 0.5));
+
+            #region Alternative pushpin technique
+                //var pin2 = CreatePin();
+                //map1.Children.Add(pin2);
+                //MapControl.SetLocation(pin2, location.Coordinate.Point);
+                //MapControl.SetNormalizedAnchorPoint(pin2, new Point(0.0, 1.0));
+            #endregion
         }
 
         private void buttonLondon_Click(object sender, RoutedEventArgs e)
