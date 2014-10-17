@@ -122,16 +122,6 @@ namespace MapsWP81
             map1.ColorScheme = MapColorScheme.Light;
         }
 
-        private void Watermark_Checked(object sender, RoutedEventArgs e)
-        {
-            map1.WatermarkMode = MapWatermarkMode.On;
-        }
-
-        private void Watermark_Unchecked(object sender, RoutedEventArgs e)
-        {
-            map1.WatermarkMode = MapWatermarkMode.Automatic;
-        }
-
         private void Traffic_Checked(object sender, RoutedEventArgs e)
         {
             map1.TrafficFlowVisible = true;
@@ -182,12 +172,84 @@ namespace MapsWP81
 
         private void TileSource_Checked(object sender, RoutedEventArgs e)
         {
-
+            var httpsource = new HttpMapTileDataSource("http://a.tile.openstreetmap.org/{zoomlevel}/{x}/{y}.png");
+            var ts = new MapTileSource(httpsource)
+            {
+                Layer = MapTileLayer.BackgroundReplacement
+            };
+            map1.Style = MapStyle.None;
+            map1.TileSources.Add(ts);
         }
 
         private void TileSource_Unchecked(object sender, RoutedEventArgs e)
         {
-
+            map1.TileSources.Clear();
+            map1.Style = MapStyle.Road;
         }
+
+        private void CustTileSource_Checked(object sender, RoutedEventArgs e)
+        {
+            var customSource = new CustomMapTileDataSource();
+            customSource.BitmapRequested += async (o, args) => 
+            {
+                var deferral = args.Request.GetDeferral();
+                args.Request.PixelData = await CreateBitmapAsStreamAsync();
+                deferral.Complete();
+            };
+            var ts = new MapTileSource(customSource)
+            {
+                Layer = MapTileLayer.BackgroundOverlay,
+                IsTransparencyEnabled = true,
+            }; 
+            map1.TileSources.Add(ts);
+        }
+
+
+        private void CustTileSource_Unchecked(object sender, RoutedEventArgs e)
+        {
+            map1.TileSources.Clear();
+            map1.Style = MapStyle.Road;
+        }
+
+        private async System.Threading.Tasks.Task<IRandomAccessStreamReference> CreateBitmapAsStreamAsync()
+        {
+            const int pixelHeight = 256;
+            const int pixelWidth = 256;
+            const int bpp = 4;
+
+            var bytes = new byte[pixelHeight * pixelWidth * bpp];
+
+            for (var y = 0; y < pixelHeight; y++)
+            {
+                for (var x = 0; x < pixelWidth; x++)
+                {
+                    var pixelIndex = y * pixelWidth + x;
+                    var byteIndex = pixelIndex * bpp;
+
+                    if (x % 64 > 16)
+                    {
+                        bytes[byteIndex] = 0x20;        // Red
+                        bytes[byteIndex + 1] = 0x20;    // Green
+                        bytes[byteIndex + 2] = 0x80;    // Blue
+                        bytes[byteIndex + 3] = 0x00;    // Alpha (0xff = fully opaque)
+                    }
+                    else
+                    {
+                        bytes[byteIndex + 3] = 0xff;    // Alpha (0xff = fully opaque)
+                    }
+                }
+            }
+
+            // Create RandomAccessStream from byte array
+            var randomAccessStream =
+                new InMemoryRandomAccessStream();
+            var outputStream = randomAccessStream.GetOutputStreamAt(0);
+            var writer = new DataWriter(outputStream);
+            writer.WriteBytes(bytes);
+            await writer.StoreAsync();
+            await writer.FlushAsync();
+            return RandomAccessStreamReference.CreateFromStream(randomAccessStream);
+        }
+    
     }
 }

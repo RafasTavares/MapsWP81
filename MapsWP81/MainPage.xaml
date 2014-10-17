@@ -23,19 +23,19 @@
                 <Button Margin="4,0" Content="A" x:Name="buttonAerial" Click="buttonAerial_Click" Background="#7FBA3434" MinWidth="30" />
                 <Button Margin="4,0" Content="H"  x:Name="buttonHybrid" Click="buttonHybrid_Click"  Background="#7FBA3434" MinWidth="30"/>
                 <Button Margin="4,0" Content="T"  x:Name="buttonTerrain" Click="buttonTerrain_Click" Background="#7FBA3434" MinWidth="30" />
-                <CheckBox Margin="4,0" x:Name="TileSource" Checked="TileSource_Checked" Unchecked="TileSource_Unchecked" Background="#7FBA3434"  Content="TileSource"/>
             </StackPanel>
 
             <Viewbox>
-                <StackPanel Orientation= "Vertical" Margin="0,0" Background="#7FBA3434" >
+                <StackPanel Orientation= "Vertical" Margin="10,0" Background="#7FBA3434" >
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0"    >
-                        <CheckBox Margin="4,0" x:Name="Landmarks" Checked="Landmarks_Checked" Unchecked="Landmarks_Unchecked" Content="Landmarks"  MinWidth="30" />
+                        <CheckBox Margin="4,0" x:Name="Landmarks" Checked="Landmarks_Checked" Unchecked="Landmarks_Unchecked" Content="Landmarks"   />
                         <CheckBox Margin="4,0" x:Name="Pedestrian" Checked="Pedestrian_Checked" Unchecked="Pedestrian_Unchecked" Content="Pedestrian"/>
+                        <CheckBox Margin="4,0" x:Name="TileSource" Checked="TileSource_Checked" Unchecked="TileSource_Unchecked" Content="Http Tile"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0"    >
                         <CheckBox Margin="4,0" x:Name="Dark" Checked="Dark_Checked" Unchecked="Dark_Unchecked" Content="Dark" />
-                        <CheckBox Margin="4,0" x:Name="Watermark" Checked="Watermark_Checked" Unchecked="Watermark_Unchecked" Content="Watermark"/>
                         <CheckBox Margin="4,0" x:Name="Traffic" Checked="Traffic_Checked" Unchecked="Traffic_Unchecked" Content="Traffic"/>
+                        <CheckBox Margin="4,0" x:Name="CustTileSource" Checked="CustTileSource_Checked" Unchecked="CustTileSource_Unchecked" Content="Custom Tile"/>
                     </StackPanel>
                 </StackPanel>
             </Viewbox>
