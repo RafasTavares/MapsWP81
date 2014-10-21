@@ -221,17 +221,13 @@ namespace MapsWP81
         private DependencyObject CreatePin()
         {
             //Creating a Grid element.
-
             var myGrid = new Grid();
             myGrid.RowDefinitions.Add(new RowDefinition());
             myGrid.RowDefinitions.Add(new RowDefinition());
             myGrid.Background = new SolidColorBrush(Colors.Transparent);
 
             //Creating a Rectangle
-            var myRectangle = new Rectangle();
-            myRectangle.Fill = new SolidColorBrush(Colors.Black);
-            myRectangle.Height = 20;
-            myRectangle.Width = 20;
+            var myRectangle = new Rectangle {Fill = new SolidColorBrush(Colors.Black), Height = 20, Width = 20};
             myRectangle.SetValue(Grid.RowProperty, 0);
             myRectangle.SetValue(Grid.ColumnProperty, 0);
 
@@ -239,12 +235,12 @@ namespace MapsWP81
             myGrid.Children.Add(myRectangle);
 
             //Creating a Polygon
-            var myPolygon = new Polygon();
-            myPolygon.Points.Add(new Point(2, 0));
-            myPolygon.Points.Add(new Point(22, 0));
-            myPolygon.Points.Add(new Point(2, 40));
-            myPolygon.Stroke = new SolidColorBrush(Colors.Black);
-            myPolygon.Fill = new SolidColorBrush(Colors.Black);
+            var myPolygon = new Polygon()
+            {
+                Points = new PointCollection() {new Point(2, 0), new Point(22, 0), new Point(2, 40)},
+                Stroke = new SolidColorBrush(Colors.Black),
+                Fill = new SolidColorBrush(Colors.Black)
+            };
             myPolygon.SetValue(Grid.RowProperty, 1);
             myPolygon.SetValue(Grid.ColumnProperty, 0);
 
